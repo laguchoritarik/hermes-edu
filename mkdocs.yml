@@ -1,0 +1,21 @@
+site_name: Hermes Edu
+site_description: Architecture and contributor documentation for Hermes Edu.
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Project specification: project-specification.md
+  - Architecture: architecture.md
+  - Data model: data-model.md
+  - Dependencies: dependencies.md
+  - Environment: environment.md
+  - LangGraph: langgraph.md
+  - MCP: mcp.md
+  - RAG: rag.md
+  - LLM providers: llm-providers.md
+  - LaTeX & PDF: latex-pdf.md
+  - Testing: testing.md
+  - Security: security.md
+  - Conventions: conventions.md
+  - Roadmap: roadmap.md
+  - ADRs: adr/README.md
