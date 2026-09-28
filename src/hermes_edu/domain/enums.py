@@ -1,4 +1,14 @@
-"""Domain enumerations such as document/workflow/audit categories.
+"""Vocabulary shared by the v0.1 mathematics TD domain."""
 
-Architecture scaffold only. No production implementation is provided yet.
-"""
+from enum import StrEnum
+
+
+class DocumentType(StrEnum):
+    TD = "td"
+
+
+class Severity(StrEnum):
+    INFO = "info"
+    ERROR = "error"
+    WARNING = "warning"
+    BLOCKER = "blocker"

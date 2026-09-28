@@ -1,0 +1,22 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{enumitem}
+\setlist[enumerate]{leftmargin=*}
+\title{ {{ draft.title | tex }} }
+\date{}
+\begin{document}
+\maketitle
+\begin{enumerate}
+{% for exercise in draft.exercises %}
+\item \textbf{ {{ exercise.title | tex }} }\par
+{{ exercise.statement | tex }}\par
+{% if exercise.solution %}\smallskip\textit{Solution.} {{ exercise.solution | tex }}\par{% endif %}
+\smallskip\textit{Sources:} {{ exercise.source_ids | join(', ') | tex }}
+{% endfor %}
+\end{enumerate}
+\section*{Provenance}
+{% for source in sources %}
+\noindent {{ source.source_id | tex }}: {{ source.title | tex }} ({{ source.location | tex }}; {{ source.license | tex }})\par
+{% endfor %}
+\end{document}

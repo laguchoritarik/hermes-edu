@@ -1,4 +1,12 @@
-"""Document pipeline transfer/artifact/diagnostic models.
+"""Typed document compilation diagnostics."""
 
-Architecture scaffold only. No production implementation is provided yet.
-"""
+from dataclasses import dataclass
+from pathlib import Path
+
+
+@dataclass(frozen=True, slots=True)
+class CompileResult:
+    pdf_path: Path
+    log_path: Path
+    exit_code: int
+    diagnostic: str

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hermes Browser Fixture</title>
+  </head>
+  <body>
+    <h1>Programme Analyse 1</h1>
+    <p>Cette page locale sert aux tests du navigateur Hermes.</p>
+    <label>
+      Recherche
+      <input name="q" placeholder="Recherche" />
+    </label>
+    <textarea aria-label="Notes"></textarea>
+    <label><input type="checkbox" name="official" /> officiel</label>
+    <select aria-label="Année">
+      <option value="2025">2025</option>
+      <option value="2026">2026</option>
+    </select>
+    <button id="search" onclick="document.getElementById('result').hidden=false">Rechercher</button>
+    <p id="result" hidden>Résultat visible sur les intégrales.</p>
+    <a href="result.html" target="_blank">Ouvrir un résultat</a>
+    <a href="fixture.pdf" download>Télécharger PDF</a>
+    <div style="height: 1600px; border: 1px solid #ccc; margin-top: 24px">
+      Zone scrollable avec du contenu sur les primitives et les intégrales définies.
+    </div>
+  </body>
+</html>

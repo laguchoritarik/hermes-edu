@@ -4,14 +4,14 @@ build-backend = "uv_build"
 
 [project]
 name = "hermes-edu"
-version = "0.0.0"
+version = "0.1.0"
 description = "Provider-agnostic, MCP-enabled, LangGraph-orchestrated educational content agent."
 readme = "README.md"
 requires-python = ">=3.12"
 license = "Apache-2.0"
 keywords = ["education", "agents", "mcp", "langgraph", "rag", "latex"]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
+  "Development Status :: 3 - Alpha",
   "Intended Audience :: Education",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: Apache Software License",
@@ -34,12 +34,17 @@ dependencies = [
   "tenacity>=9,<10",
 ]
 
+[project.scripts]
+hermes-edu = "hermes_edu.interfaces.cli.app:app"
+hermes-edu-mcp = "hermes_edu.mcp.server:main"
+
 [project.optional-dependencies]
 cli = [
   "rich>=14,<15",
   "typer>=0.27,<1",
 ]
 rag = [
+  "hnswlib>=0.8,<0.9",
   "numpy>=2,<3",
   "pymupdf>=1.28,<2",
   "sqlite-vec>=0.1.9,<0.2",
@@ -50,6 +55,9 @@ latex = [
 api = [
   "fastapi>=0.115,<1",
   "uvicorn[standard]>=0.30,<1",
+]
+browser = [
+  "playwright>=1.57,<2",
 ]
 langchain = [
   "langchain>=1,<2",
@@ -62,7 +70,7 @@ dev = [
   "pip-audit>=2.9,<3",
   "pre-commit>=4,<5",
   "pyright>=1.1,<2",
-  "pytest>=8.4,<9",
+  "pytest>=9.0.3,<10",
   "pytest-asyncio>=1,<2",
   "pytest-cov>=6,<8",
   "ruff>=0.10,<1",

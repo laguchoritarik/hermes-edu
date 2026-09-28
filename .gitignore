@@ -31,19 +31,27 @@ Thumbs.db
 
 # Local Hermes runtime state
 .local/
+.hermes/
 workspace/*
 !workspace/README.md
 
 # Knowledge/data are local by default
 # Keep directory documentation/placeholders, not user/source documents.
+data/*
+!data/README.md
+!data/raw/
 data/raw/*
 !data/raw/.gitkeep
+!data/processed/
 data/processed/*
 !data/processed/.gitkeep
+!data/index/
 data/index/*
 !data/index/.gitkeep
 
 # Generated documents
+*.pdf
+!tests/fixtures/**/*.pdf
 *.aux
 *.fdb_latexmk
 *.fls

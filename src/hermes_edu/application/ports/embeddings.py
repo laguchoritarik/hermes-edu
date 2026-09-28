@@ -1,4 +1,10 @@
-"""Abstract embedding generation port.
+"""Embedding contract for local indexing and lookup."""
 
-Architecture scaffold only. No production implementation is provided yet.
-"""
+from typing import Protocol
+
+
+class EmbeddingPort(Protocol):
+    @property
+    def model_id(self) -> str: ...
+
+    def embed(self, texts: tuple[str, ...]) -> tuple[tuple[float, ...], ...]: ...

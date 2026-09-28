@@ -1,6 +1,98 @@
 # Hermes Edu
 
-> **Status: architecture scaffold / pre-alpha.** The repository intentionally contains structure, contracts, documentation, tests, and configuration before production implementation.
+> **Status: mathematics TD and course workflows, with a personal PDF reference library.** Other document workflows remain architecture placeholders.
+
+## v0.1 quickstart
+
+```bash
+uv sync --all-extras --all-groups
+cp -n .env.example .env
+# Set DEEPSEEK_API_KEY and a valid HERMES_DEFAULT_MODEL in .env for live generation.
+# Keep HERMES_EMBEDDING_PROVIDER=deterministic for offline local retrieval.
+uv run hermes-edu doctor
+uv run hermes-edu ingest --example
+uv run hermes-edu td "Reduction" --curriculum sample-mp --track MP --exercises 3
+# Use the printed thread ID after reviewing the plan:
+uv run hermes-edu resume THREAD_ID approve
+```
+
+`--yes` on `td` explicitly skips plan approval. `--tex-only` produces TeX without XeLaTeX; use the same flag on `resume` when resuming such a run. PDF output requires XeLaTeX/TeX Live. Generated artifacts are stored under `workspace/THREAD_ID/`; checkpoints are under `.local/`. The bundled curriculum is synthetic and is **not** an official source. Real generation needs a configured DeepSeek credential; the test suite uses offline fakes.
+
+Use `uv run hermes-edu ingest PATH --source-id ID --title TITLE --license LICENSE --curriculum CURRICULUM --track TRACK --kind curriculum` for a local source inside `HERMES_DATA_DIR`. `--kind knowledge` indexes supplemental notes. The MCP v2 stdio entry point is `uv run hermes-edu-mcp`; it exposes bounded search, validation, compilation, the synthetic curriculum, the TD template, and a TD prompt.
+
+See [v0.1 operation and cost strategy](docs/operations-v01.md) for usage accounting, limits, and security choices.
+
+## Utiliser Hermes en chat
+
+Hermes peut aussi être piloté en langage naturel sans créer un second moteur :
+
+```bash
+uv run hermes-edu chat
+uv run hermes-edu chat --project ensam-analyse1
+uv run hermes-edu chat --resume last
+uv run hermes-edu prompt "Prépare un TD sur les intégrales pour CP1 ENSAM, 10 exercices avec corrigé."
+uv run hermes-edu prompt --file prompt.md
+```
+
+Le chat maintient une session structurée dans `.hermes/sessions/` (configurable avec `HERMES_CHAT_SESSIONS_DIR`). Il utilise un Helper Agent LLM rapide et peu coûteux comme orchestrateur conversationnel : il comprend la demande, maintient un résumé compact, met à jour `TaskDraft`, sélectionne quelques tools pertinents via `ToolRouter`, exploite leurs observations compactes, pose une question concise si nécessaire ou délègue aux workflows Hermes existants. Les commandes internes utiles sont `/help`, `/status`, `/plan`, `/sources`, `/add <path>`, `/run`, `/cancel`, `/new`, `/save` et `/exit`; elles restent déterministes et n'appellent pas le LLM.
+
+Le Helper Agent n'est pas un chatbot généraliste et ne remplace pas les services métier. Les tools exécutent réellement les actions, la bibliothèque de références conserve hash/registre/parsing/chunking/embeddings/HNSW, les générateurs spécialisés produisent les documents, les validators contrôlent et le quality gate décide de la publication. Le modèle helper est configurable séparément :
+
+```bash
+HERMES_AGENT_ENABLED=true
+HERMES_HELPER_PROVIDER=deepinfra
+HERMES_HELPER_MODEL=<configured-fast-model>
+HERMES_AGENT_MAX_STEPS=12
+```
+
+DeepSeek Flash ou tout modèle compatible avec les providers existants peut être utilisé sans le coder en dur dans l'application.
+
+## Browser Tool
+
+Hermes peut piloter un vrai Chromium comme tool général derrière un `BrowserPort`
+applicatif et un adapter `PlaywrightBrowserAdapter`.
+
+```bash
+uv sync --extra browser --all-groups
+uv run playwright install chromium
+uv run hermes-edu chat --browser
+uv run hermes-edu chat --browser-visible
+uv run hermes-edu browser open https://example.com
+```
+
+Dans le chat : “ouvre https://…”, “lis la page”, “clique e2”, “descends”,
+“télécharge e5 ajoute”. Les observations restent compactes : URL, titre, texte
+visible borné et éléments interactifs `e1`, `e2`, etc. Les téléchargements sont
+stockés sous `.hermes/browser/sessions/<session-id>/downloads/`; les PDF peuvent
+ensuite être transmis à la bibliothèque existante, sans pipeline RAG séparé.
+
+## Mode conversationnel
+
+Les commandes structurées restent disponibles, mais Hermes peut aussi partir d'un prompt libre ou d'une session interactive :
+
+```bash
+uv run hermes-edu course "Intégrales" --curriculum sample-mp --track MP
+uv run hermes-edu prompt "Prépare un cours sur les intégrales pour Analyse 1"
+uv run hermes-edu chat
+uv run hermes-edu chat --project ensam-analyse1
+uv run hermes-edu chat --resume last
+```
+
+`chat` et `prompt` ne créent pas un second moteur : ils alimentent le même `ChatService`, construisent un brouillon structuré, vérifient les références avec la bibliothèque PDF/HNSW existante, puis appellent les workflows Hermes normaux. Les commandes internes minimales sont `/help`, `/status`, `/plan`, `/sources`, `/add <path>`, `/run`, `/cancel`, `/new`, `/save` et `/exit`. Une couverture insuffisante devient une question de workflow demandant une référence supplémentaire ; elle n'est jamais injectée dans le document étudiant.
+
+## Créer un cours
+
+Le contenu doit être fondé sur les passages retrouvés : ne pas inventer de théorèmes, preuves ou exemples pour combler une référence manquante. Une source insuffisante est traitée comme un événement de workflow et un `quality_report`, pas comme une phrase insérée dans le cours élève. L’audit contrôle la fidélité aux références ; les listes de repli configurées s'appliquent aussi à la vérification après correction.
+
+Indexer le programme officiel avec `ingest --kind curriculum --curriculum ID --source-url URL`, puis ajouter les PDF de cours à la bibliothèque. `uv run hermes-edu course "Intégrales dépendant d'un paramètre" --curriculum mp-maroc --track MP --sections 6` retrouve la partie officielle, en extrait un plan sourcé, puis utilise chaque titre et sa sous-partie officielle pour rechercher les passages de cours nécessaires à la rédaction. Chaque section est ensuite auditée avec ses références, puis le quality gate produit `quality_report.json` et `quality_report.md`. Reprendre avec `uv run hermes-edu course-resume THREAD_ID approve` ; `--yes` sur `course` lance directement le workflow. Voir [les instructions et limites](docs/courses.md). Les tâches peuvent définir jusqu'à quatre modèles de repli ordonnés et distincts : erreur, délai ou JSON invalide passe au candidat suivant sans modifier l'ordre configuré. Les métriques locales sans contenu sont dans `.local/llm-metrics.db`.
+
+## Ajouter mes références
+
+Placez vos PDF dans `data/`, puis utilisez `uv run hermes-edu references add data/mon-cours.pdf` ou `uv run hermes-edu references add-directory data/mes-cours`. Hermès prépare chaque contenu une fois et le conserve pour les recherches suivantes, même si le fichier est renommé. `uv run hermes-edu references list` affiche la bibliothèque et `uv run hermes-edu references search "espaces vectoriels" --top-k 5` recherche les passages utiles. Une bibliothèque vide et une recherche sans source pertinente sont signalées séparément ; vous pouvez alors ajouter un PDF et relancer la même question.
+
+Pour les références réelles, configurez `HERMES_EMBEDDING_PROVIDER=deepinfra`, `HERMES_EMBEDDING_MODEL=Qwen/Qwen3-Embedding-8B` et `DEEPINFRA_API_KEY` dans `.env`. Avec le mode par défaut `HERMES_REFERENCE_PDF_MODE=latex`, chaque nouveau PDF est converti en LaTeX par iLoveMyLaTeX avant le chunking ; `ILOVEMYLATEX_API_KEY` est nécessaire. Le LaTeX obtenu est conservé avec les artefacts de parsing pour les réutilisations suivantes. Le mode `text` reste un choix explicite pour les tests hors ligne ; il n'est jamais utilisé en secours silencieux d'une conversion échouée.
+
+Développeurs : le pipeline est dans `knowledge/ingestion/structured_pdf.py` (parser), `knowledge/chunking/semantic.py` (objets mathématiques), `application/use_cases/reference_library.py` (use case), `persistence/repositories/sqlite.py` (registre/artefacts) et `knowledge/stores/hnsw.py` (index natif HNSW persistant). Le câblage et les paramètres sont dans `bootstrap.py` et `config/settings.py`. Un autre parser ou fournisseur d'embeddings s'ajoute derrière les ports existants. La migration SQLite `0001_reference_library.sql` s'applique automatiquement au premier accès à la bibliothèque ; elle conserve les tables TD existantes. Aucune instance Qdrant n'est nécessaire. `uv run hermes-edu references reindex DOCUMENT_ID` force le recalcul ; `make lint typecheck test build` valide le dépôt.
 
 Hermes Edu is an open-source educational agent architecture designed to create and maintain high-quality **courses, exercise sheets/TDs, homework/DMs, tests/DSs, corrections, explanations, and LaTeX/PDF documents**. The initial domain is mathematics, but the architecture is intentionally provider- and curriculum-agnostic.
 
@@ -289,7 +381,7 @@ See `docs/dependencies.md`.
 ### Install
 
 ```bash
-cp .env.example .env
+cp -n .env.example .env
 uv sync --all-extras --all-groups
 uv run pre-commit install
 ```
@@ -424,7 +516,7 @@ Start here:
 
 ## 18. Current status
 
-This archive is deliberately an **architecture-first scaffold**. Python modules contain placeholders/docstrings rather than production implementations. Configuration, CI, documentation, dependency declaration, and repository boundaries are established so implementation can begin without creating architectural debt.
+The mathematics TD slice is implemented and tested through CLI, LangGraph, local retrieval, approval/resume, bounded audit/revision, and the controlled TeX pipeline. DM, DS, correction, and most API modules remain placeholders by design. Courses now have a source-grounded checkpointed workflow; see [course usage](docs/courses.md). See `docs/roadmap.md` for subsequent slices.
 
 ## License
 

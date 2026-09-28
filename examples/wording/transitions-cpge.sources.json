@@ -1,0 +1,303 @@
+{
+  "purpose": "30 expressions de liaison attestées dans des cours CPGE; une expression par ligne dans transitions-cpge.fr.txt.",
+  "normalization_policy": {
+    "whitespace": "Les espaces internes sont réduits à une espace; les retours à la ligne issus de l'extraction PDF sont supprimés.",
+    "case": "La casse source est conservée sauf pour les expressions commençant en milieu de phrase, mises en capitale initiale dans le fichier texte.",
+    "punctuation": "La ponctuation terminale n'est pas incluse dans l'expression."
+  },
+  "vienney_mpsi_archive_search": {
+    "status": "not_found",
+    "checked_on": "2026-09-27",
+    "scope": "Recherche des archives officielles MPSI de Mathieu Vienney; les deux documents officiels retenus sont explicitement MP2I.",
+    "reason_for_mp2i_sources": "Aucune archive MPSI officielle attribuée à Mathieu Vienney n'a été localisée pendant cette recherche; les sources MP2I ne sont donc pas renommées MPSI."
+  },
+  "chapter_coverage": {
+    "Laurent Garcin": [
+      "Intégrales à paramètres",
+      "Anneaux et arithmétique"
+    ],
+    "Mickaël Prost": [
+      "Intégrales à paramètre",
+      "Séries entières"
+    ],
+    "Mathieu Vienney": [
+      "Chapitre 1 : Éléments de logique",
+      "Chapitre 2 : Rappels et compléments calculatoires"
+    ]
+  },
+  "sources": [
+    {
+      "id": "garcin-integrales-parametres",
+      "author": "Laurent Garcin",
+      "document": "Intégrales à paramètres",
+      "source_file": "IntegralesParametres.pdf",
+      "level": "MP",
+      "provided_by_user": true,
+      "sha256": "a17c8c363aeedf0e0c96a4206e3c45ee37f6ac1179f6af1f706298fe3995cce8",
+      "verified_on": "2026-09-27"
+    },
+    {
+      "id": "garcin-anneaux",
+      "author": "Laurent Garcin",
+      "document": "Anneaux et arithmétique",
+      "url": "https://lgarcin.github.io/pdfs/Cours/Anneaux.pdf",
+      "level": "MP",
+      "sha256": "45436c683bbba310a83e204ab85fcc04c6f15ad6a156d3ebd396631277747b7b",
+      "verified_on": "2026-09-27"
+    },
+    {
+      "id": "prost-integrales-parametre",
+      "author": "Mickaël Prost",
+      "document": "Cours de Mathématiques - MP, chapitre 15 : Intégrales à paramètre",
+      "source_file": "integrales_parametre.pdf",
+      "level": "MP",
+      "provided_by_user": true,
+      "sha256": "899a476c73c07f757295fc737cc960d4489343e92485fbcf60696e0e2aae5248",
+      "verified_on": "2026-09-27"
+    },
+    {
+      "id": "prost-series-entieres",
+      "author": "Mickaël Prost",
+      "document": "Cours de Mathématiques - MP, chapitre 9 : Séries entières",
+      "url": "https://math.univ-lyon1.fr/parcours_matheco/lib/exe/fetch.php?media=programmes_ue_l2%3Aanalyse_pour_l_economie_1%3Amickael_prost_series_entieres.pdf",
+      "level": "MP",
+      "sha256": "046d2b1ce1e843ce00131526782169dc442e31f2e627fb0750080768ae3abde8",
+      "verified_on": "2026-09-27"
+    },
+    {
+      "id": "vienney-chapitre-1",
+      "author": "Mathieu Vienney",
+      "document": "Chapitre 1 : Éléments de logique",
+      "url": "https://www.mp2i-champo.fr/cours/Chapitre1.pdf",
+      "level": "MP2I",
+      "note": "Source MP2I, non présentée comme une source MPSI.",
+      "year": "2026–2027",
+      "sha256": "18774f32da09a92b50e07b70c7336597e5573da5b4555efd716ec1261702b379",
+      "verified_on": "2026-09-27"
+    },
+    {
+      "id": "vienney-chapitre-2",
+      "author": "Mathieu Vienney",
+      "document": "Chapitre 2 : Rappels et compléments calculatoires",
+      "url": "https://www.mp2i-champo.fr/cours/Chapitre2.pdf",
+      "level": "MP2I",
+      "note": "Source MP2I, non présentée comme une source MPSI.",
+      "year": "2026–2027",
+      "sha256": "6ec93ce78ad9a36d3cf8266aa035705d721b9e231240186c0796f6477aca2df0",
+      "verified_on": "2026-09-27"
+    }
+  ],
+  "expressions": [
+    {
+      "expression": "D’après",
+      "source_id": "garcin-integrales-parametres",
+      "page": 1,
+      "raw": "D’après le théorème de convergence dominée",
+      "normalization": "extraction du préfixe attesté"
+    },
+    {
+      "expression": "On obtient",
+      "source_id": "prost-series-entieres",
+      "page": 8,
+      "raw": "on obtient",
+      "normalization": "capitale initiale"
+    },
+    {
+      "expression": "En effet",
+      "source_id": "garcin-integrales-parametres",
+      "page": 2,
+      "raw": "En effet",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Puisque",
+      "source_id": "garcin-anneaux",
+      "page": 7,
+      "raw": "Puisque",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "On a",
+      "source_id": "garcin-integrales-parametres",
+      "page": 2,
+      "raw": "on a",
+      "normalization": "capitale initiale"
+    },
+    {
+      "expression": "On en déduit que",
+      "source_id": "garcin-integrales-parametres",
+      "page": 2,
+      "raw": "On en déduit que",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Et ainsi",
+      "source_id": "garcin-integrales-parametres",
+      "page": 2,
+      "raw": "et ainsi",
+      "normalization": "capitale initiale"
+    },
+    {
+      "expression": "Il suffit",
+      "source_id": "garcin-integrales-parametres",
+      "page": 7,
+      "raw": "il suffit",
+      "normalization": "capitale initiale"
+    },
+    {
+      "expression": "On a donc bien",
+      "source_id": "garcin-integrales-parametres",
+      "page": 2,
+      "raw": "On a donc bien",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Finalement",
+      "source_id": "garcin-integrales-parametres",
+      "page": 2,
+      "raw": "Finalement",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Ou encore",
+      "source_id": "garcin-integrales-parametres",
+      "page": 5,
+      "raw": "ou encore",
+      "normalization": "capitale initiale"
+    },
+    {
+      "expression": "De plus",
+      "source_id": "garcin-integrales-parametres",
+      "page": 1,
+      "raw": "De plus",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "En particulier",
+      "source_id": "prost-integrales-parametre",
+      "page": 1,
+      "raw": "En particulier",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "En revanche",
+      "source_id": "prost-series-entieres",
+      "page": 12,
+      "raw": "En revanche",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Et pourtant",
+      "source_id": "prost-integrales-parametre",
+      "page": 1,
+      "raw": "et pourtant",
+      "normalization": "capitale initiale"
+    },
+    {
+      "expression": "Puisqu’il s’agit",
+      "source_id": "vienney-chapitre-2",
+      "page": 14,
+      "raw": "puisqu’il s’agit",
+      "normalization": "capitale initiale"
+    },
+    {
+      "expression": "Ce faisant",
+      "source_id": "prost-integrales-parametre",
+      "page": 1,
+      "raw": "ce faisant",
+      "normalization": "capitale initiale"
+    },
+    {
+      "expression": "Montrons que",
+      "source_id": "prost-integrales-parametre",
+      "page": 2,
+      "raw": "Montrons que",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Appliquons pour cela",
+      "source_id": "prost-integrales-parametre",
+      "page": 2,
+      "raw": "Appliquons pour cela",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Donc",
+      "source_id": "prost-integrales-parametre",
+      "page": 3,
+      "raw": "Donc",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Soit alors",
+      "source_id": "prost-integrales-parametre",
+      "page": 3,
+      "raw": "Soit alors",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "En vertu du",
+      "source_id": "prost-integrales-parametre",
+      "page": 3,
+      "raw": "en vertu du théorème des bornes atteintes",
+      "normalization": "capitale initiale; extraction du préfixe attesté"
+    },
+    {
+      "expression": "Observons enfin que",
+      "source_id": "prost-integrales-parametre",
+      "page": 4,
+      "raw": "Observons enfin que",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "On suppose que",
+      "source_id": "prost-integrales-parametre",
+      "page": 2,
+      "raw": "On suppose que",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Par récurrence",
+      "source_id": "prost-integrales-parametre",
+      "page": 5,
+      "raw": "On étend facilement par récurrence",
+      "normalization": "extraction du connecteur attesté"
+    },
+    {
+      "expression": "Autrement dit",
+      "source_id": "vienney-chapitre-1",
+      "page": 2,
+      "raw": "Autrement dit",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "De même",
+      "source_id": "vienney-chapitre-1",
+      "page": 3,
+      "raw": "de même",
+      "normalization": "capitale initiale"
+    },
+    {
+      "expression": "Et donc",
+      "source_id": "vienney-chapitre-1",
+      "page": 6,
+      "raw": "Et donc",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Or",
+      "source_id": "vienney-chapitre-1",
+      "page": 6,
+      "raw": "Or",
+      "normalization": "aucune"
+    },
+    {
+      "expression": "Ainsi",
+      "source_id": "prost-series-entieres",
+      "page": 3,
+      "raw": "Ainsi",
+      "normalization": "aucune"
+    }
+  ],
+  "verification": "Les 30 expressions ont été vérifiées dans le texte extrait avec pdftotext à la page PDF indiquée (pagination physique, à partir de 1). Empreintes SHA-256 des six PDF conservées."
+}

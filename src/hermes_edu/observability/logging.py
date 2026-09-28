@@ -1,4 +1,14 @@
-"""Structured logging configuration and redaction policy.
+"""Structured events at the reference-library application boundary."""
 
-Architecture scaffold only. No production implementation is provided yet.
-"""
+import structlog
+
+
+class StructlogReferenceEvents:
+    def __init__(self) -> None:
+        self._logger = structlog.get_logger("hermes.references")
+
+    def info(self, event: str, **fields: object) -> None:
+        self._logger.info(event, **fields)
+
+    def warning(self, event: str, **fields: object) -> None:
+        self._logger.warning(event, **fields)

@@ -1,0 +1,38 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage[margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\hypersetup{hidelinks}
+\setlength{\emergencystretch}{3em}
+\newtheorem{theorem}{Théorème}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemme}
+\newtheorem{corollary}[theorem]{Corollaire}
+\newtheorem{result}[theorem]{Résultat}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Définition}
+\newtheorem{example}[theorem]{Exemple}
+\newtheorem{method}[theorem]{Méthode}
+\newtheorem{remark}[theorem]{Remarque}
+\newtheorem{exercise}[theorem]{Exercice}
+\newtheorem{solution}[theorem]{Solution}
+\title{ {{ title }} }
+\date{}
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+{% for section in sections %}
+\section{ {{ section.title }} }
+{% for block in section.blocks %}
+{% if block.kind == "heading" %}\subsection*{ {{ block.content }} }
+{% elif block.kind == "text" %}\par\noindent {{ block.content }}\par
+{% else %}\begin{ {{- block.kind -}} }{{ block.content }}\end{ {{- block.kind -}} }
+{% endif %}
+{% endfor %}
+{% endfor %}
+\end{document}
