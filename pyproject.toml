@@ -40,7 +40,7 @@ hermes-edu-mcp = "hermes_edu.mcp.server:main"
 
 [project.optional-dependencies]
 cli = [
-  "rich>=14,<15",
+  "rich>=14,<16",
   "typer>=0.27,<1",
 ]
 rag = [
