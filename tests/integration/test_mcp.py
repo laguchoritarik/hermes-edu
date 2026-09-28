@@ -1,6 +1,8 @@
 """MCP v2 exposes bounded local capabilities through the core adapters."""
 
 import asyncio
+import threading
+from collections.abc import Callable, Coroutine
 from pathlib import Path
 
 import pymupdf
@@ -16,7 +18,7 @@ from hermes_edu.mcp.server import create_server
 
 
 def test_mcp_surface_and_validation(tmp_path: Path) -> None:
-    asyncio.run(_assert_mcp_surface_and_validation(tmp_path))
+    _run_async(lambda: _assert_mcp_surface_and_validation(tmp_path))
 
 
 async def _assert_mcp_surface_and_validation(tmp_path: Path) -> None:
@@ -79,7 +81,7 @@ async def _assert_mcp_surface_and_validation(tmp_path: Path) -> None:
 
 
 def test_mcp_reference_import_search_and_related(tmp_path: Path) -> None:
-    asyncio.run(_assert_mcp_reference_import_search_and_related(tmp_path))
+    _run_async(lambda: _assert_mcp_reference_import_search_and_related(tmp_path))
 
 
 async def _assert_mcp_reference_import_search_and_related(tmp_path: Path) -> None:
@@ -113,3 +115,26 @@ async def _assert_mcp_reference_import_search_and_related(tmp_path: Path) -> Non
     assert isinstance(searched, CallToolResult)
     assert "ENOUGH_EVIDENCE" in str(searched.structured_content)
     assert "embedding_text" not in str(searched.structured_content)
+
+
+def _run_async(factory: Callable[[], Coroutine[object, object, None]]) -> None:
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        asyncio.run(factory())
+        return None
+
+    errors: list[BaseException] = []
+
+    def runner() -> None:
+        try:
+            asyncio.run(factory())
+        except BaseException as exc:
+            errors.append(exc)
+
+    thread = threading.Thread(target=runner)
+    thread.start()
+    thread.join()
+    if errors:
+        raise errors[0]
+    return None
