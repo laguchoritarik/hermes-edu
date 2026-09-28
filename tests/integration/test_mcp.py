@@ -1,5 +1,6 @@
 """MCP v2 exposes bounded local capabilities through the core adapters."""
 
+import asyncio
 from pathlib import Path
 
 import pymupdf
@@ -14,8 +15,11 @@ from hermes_edu.knowledge.ingestion.base import load_document
 from hermes_edu.mcp.server import create_server
 
 
-@pytest.mark.asyncio
-async def test_mcp_surface_and_validation(tmp_path: Path) -> None:
+def test_mcp_surface_and_validation(tmp_path: Path) -> None:
+    asyncio.run(_assert_mcp_surface_and_validation(tmp_path))
+
+
+async def _assert_mcp_surface_and_validation(tmp_path: Path) -> None:
     root = Path.cwd()
     settings = Settings(
         hermes_db_path=tmp_path / "knowledge.db", hermes_embedding_provider="deterministic"
@@ -74,8 +78,11 @@ async def test_mcp_surface_and_validation(tmp_path: Path) -> None:
         await server.call_tool("compile_td_latex", {"thread_id": "../escape"})
 
 
-@pytest.mark.asyncio
-async def test_mcp_reference_import_search_and_related(tmp_path: Path) -> None:
+def test_mcp_reference_import_search_and_related(tmp_path: Path) -> None:
+    asyncio.run(_assert_mcp_reference_import_search_and_related(tmp_path))
+
+
+async def _assert_mcp_reference_import_search_and_related(tmp_path: Path) -> None:
     path = tmp_path / "data" / "algebra.pdf"
     path.parent.mkdir()
     pdf = pymupdf.open()
