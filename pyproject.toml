@@ -77,7 +77,7 @@ dev = [
 ]
 docs = [
   "mkdocs-material>=9,<10",
-  "mkdocstrings[python]>=0.29,<1",
+  "mkdocstrings[python]>=0.29,<2",
 ]
 
 [tool.uv]
